@@ -1,4 +1,5 @@
 import {TypeOrmModuleOptions} from '@nestjs/typeorm'
+import { User } from 'src/auth/user.entity'
 import { Task } from 'src/tasks/task.entity'
 import { DataSource } from 'typeorm'
 
@@ -9,7 +10,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
    username: 'postgres',
    password: 'postgres',
    database: 'taskmanagement',
-   entities: [Task],
+   entities: [Task, User],
    logging: true,
    synchronize: true,
 }
@@ -21,7 +22,7 @@ export const AppDataSource = new DataSource({
    username: 'postgres',
    password: 'postgres',
    database: 'taskmanagement',
-   entities: [Task],
+   entities: [Task, User],
    synchronize: true,
    logging: false,
 })

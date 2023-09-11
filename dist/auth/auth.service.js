@@ -8,7 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
+const user_repository_1 = require("./user.repository");
 let AuthService = class AuthService {
+    signUp(authCredentialsDto) {
+        return user_repository_1.UserRepository.signUp(authCredentialsDto);
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

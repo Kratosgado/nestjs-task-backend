@@ -7,9 +7,6 @@ import { TaskStatus } from './task-status.enum';
 
 @Injectable()
 export class TasksService {
-   // getAllTasks(): Task[] {
-   //    return this.tasks;
-   // }
 
    getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
       return TaskRepository.getTasks(filterDto);
