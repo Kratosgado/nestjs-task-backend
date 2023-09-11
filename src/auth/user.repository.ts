@@ -1,16 +1,20 @@
+import { ConflictException, InternalServerErrorException } from "@nestjs/common";
+
 import { AppDataSource } from "src/config/typeorm.config";
 import { User } from "./user.entity";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
-import { ConflictException, InternalServerErrorException } from "@nestjs/common";
-
+import * as bcrypt from 'bcrypt';
 
 export const UserRepository = AppDataSource.getRepository(User).extend({
    async signUp(authCredentialsDto: AuthCredentialsDto) : Promise<void> {
       const { username, password } = authCredentialsDto;
 
       const user = new User();
+      user.salt = await bcrypt.genSalt();
       user.username = username;
-      user.password = password;
+      user.password = await UserRepository.hashPassword(password, user.salt);
+      user.salt = await bcrypt.genSalt();
+
       try {
          await user.save();
       } catch (error) {
@@ -19,5 +23,9 @@ export const UserRepository = AppDataSource.getRepository(User).extend({
          }
          throw new InternalServerErrorException();
       }
+   },
+
+   async hashPassword(password: string, salt: string): Promise<string> {
+      return await bcrypt.hash(password, salt);
    }
 })
