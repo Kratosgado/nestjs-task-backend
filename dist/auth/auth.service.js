@@ -13,6 +13,10 @@ let AuthService = class AuthService {
     signUp(authCredentialsDto) {
         return user_repository_1.UserRepository.signUp(authCredentialsDto);
     }
+    async signIn(authCredentialsDto) {
+        const result = await user_repository_1.UserRepository.validateUserPassword(authCredentialsDto);
+        console.log(result);
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

@@ -8,4 +8,9 @@ export class AuthService {
    signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
       return UserRepository.signUp(authCredentialsDto);
    }
+
+   async signIn(authCredentialsDto: AuthCredentialsDto) {
+      const result = await UserRepository.validateUserPassword(authCredentialsDto);
+      console.log(result);
+   }
 }

@@ -25,6 +25,16 @@ export const UserRepository = AppDataSource.getRepository(User).extend({
       }
    },
 
+   async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<string>{
+      const { username, password } = authCredentialsDto;
+      const user = await UserRepository.findOneBy({ username });
+      
+      if (user && await user.validatePassword(password)) {
+         return user.username;
+      }
+      return null;
+   },
+
    async hashPassword(password: string, salt: string): Promise<string> {
       return await bcrypt.hash(password, salt);
    }

@@ -23,6 +23,14 @@ exports.UserRepository = typeorm_config_1.AppDataSource.getRepository(user_entit
             throw new common_1.InternalServerErrorException();
         }
     },
+    async validateUserPassword(authCredentialsDto) {
+        const { username, password } = authCredentialsDto;
+        const user = await exports.UserRepository.findOneBy({ username });
+        if (user && await user.validatePassword(password)) {
+            return user.username;
+        }
+        return null;
+    },
     async hashPassword(password, salt) {
         return await bcrypt.hash(password, salt);
     }
