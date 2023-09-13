@@ -36,6 +36,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.tasks, { eager: false }),
     __metadata("design:type", user_entity_1.User)
 ], Task.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Task.prototype, "userId", void 0);
 exports.Task = Task = __decorate([
     (0, typeorm_1.Entity)()
 ], Task);

@@ -7,9 +7,10 @@ const task_status_enum_1 = require("./task-status.enum");
 const typeorm_config_1 = require("../config/typeorm.config");
 const common_1 = require("@nestjs/common");
 exports.TaskRepository = typeorm_config_1.AppDataSource.getRepository(task_entity_1.Task).extend({
-    async getTasks(filterDto) {
+    async getTasks(filterDto, user) {
         const { status, search } = filterDto;
         const query = exports.TaskRepository.createQueryBuilder('task');
+        query.where('task.userId = :userId', { userId: user.id });
         if (status) {
             query.andWhere('task.status = :status', { status });
         }
@@ -27,6 +28,7 @@ exports.TaskRepository = typeorm_config_1.AppDataSource.getRepository(task_entit
         task.status = task_status_enum_1.TaskStatus.OPEN;
         task.user = user;
         await this.save(task);
+        delete task.user;
         return task;
     },
     async getTaskById(id) {

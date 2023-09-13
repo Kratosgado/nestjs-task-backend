@@ -5,7 +5,7 @@ import { TaskStatus } from './task-status.enum';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { User } from 'src/auth/user.entity';
 export declare const TaskRepository: import("typeorm").Repository<Task> & {
-    getTasks(filterDto: GetTasksFilterDto): Promise<Task[]>;
+    getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]>;
     createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task>;
     getTaskById(id: number): Promise<Task>;
     updateTaskStatus(id: number, status: TaskStatus): Promise<Task>;

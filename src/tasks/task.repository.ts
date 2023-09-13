@@ -11,10 +11,13 @@ import { User } from 'src/auth/user.entity'
 
 
 export const TaskRepository = AppDataSource.getRepository(Task).extend({
-   async getTasks(filterDto: GetTasksFilterDto) : Promise<Task[]> {
+   async getTasks(filterDto: GetTasksFilterDto, user: User) : Promise<Task[]> {
       const { status, search } = filterDto;
 
       const query = TaskRepository.createQueryBuilder('task');
+
+      query.where('task.userId = :userId', { userId: user.id });
+      
       if (status) {
          query.andWhere('task.status = :status', {status})
       }
@@ -36,7 +39,9 @@ export const TaskRepository = AppDataSource.getRepository(Task).extend({
       task.status = TaskStatus.OPEN;
       task.user = user;
       await this.save(task);
-      
+
+      delete task.user;
+
       return task;
    },
 

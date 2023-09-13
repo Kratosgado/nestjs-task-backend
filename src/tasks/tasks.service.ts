@@ -9,8 +9,8 @@ import { User } from 'src/auth/user.entity';
 @Injectable()
 export class TasksService {
 
-   getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
-      return TaskRepository.getTasks(filterDto);
+   getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
+      return TaskRepository.getTasks(filterDto, user);
    }
 
    getTaskById(id: number): Promise<Task> {    

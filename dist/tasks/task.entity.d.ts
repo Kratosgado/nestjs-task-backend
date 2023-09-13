@@ -7,4 +7,5 @@ export declare class Task extends BaseEntity {
     description: string;
     status: TaskStatus;
     user: User;
+    userId: number;
 }

@@ -10,8 +10,8 @@ exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
 const task_repository_1 = require("./task.repository");
 let TasksService = class TasksService {
-    getTasks(filterDto) {
-        return task_repository_1.TaskRepository.getTasks(filterDto);
+    getTasks(filterDto, user) {
+        return task_repository_1.TaskRepository.getTasks(filterDto, user);
     }
     getTaskById(id) {
         return task_repository_1.TaskRepository.getTaskById(id);

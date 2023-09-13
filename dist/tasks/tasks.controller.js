@@ -26,8 +26,8 @@ let TasksController = class TasksController {
     constructor(taskService) {
         this.taskService = taskService;
     }
-    getTasks(filterDto) {
-        return this.taskService.getTasks(filterDto);
+    getTasks(filterDto, user) {
+        return this.taskService.getTasks(filterDto, user);
     }
     getTaskById(id) {
         return this.taskService.getTaskById(id);
@@ -46,8 +46,10 @@ exports.TasksController = TasksController;
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)(common_1.ValidationPipe)),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_tasks_filter_dto_1.GetTasksFilterDto]),
+    __metadata("design:paramtypes", [get_tasks_filter_dto_1.GetTasksFilterDto,
+        user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "getTasks", null);
 __decorate([
