@@ -31,22 +31,22 @@ exports.TaskRepository = typeorm_config_1.AppDataSource.getRepository(task_entit
         delete task.user;
         return task;
     },
-    async getTaskById(id) {
-        const found = await exports.TaskRepository.findOneBy({ id: id });
+    async getTaskById(id, user) {
+        const found = await exports.TaskRepository.findOne({ where: { id: id, userId: user.id } });
         if (!found) {
             throw new common_1.NotFoundException(`Task with ID '${id}' Not found`);
         }
         return found;
     },
-    async updateTaskStatus(id, status) {
-        const task = await exports.TaskRepository.getTaskById(id);
+    async updateTaskStatus(id, status, user) {
+        const task = await exports.TaskRepository.getTaskById(id, user);
         task.status = status;
         task.save();
         return task;
     },
-    async deleteTaskById(id) {
-        const found = exports.TaskRepository.getTaskById(id);
-        exports.TaskRepository.delete(id);
+    async deleteTaskById(id, user) {
+        const found = await exports.TaskRepository.getTaskById(id, user);
+        exports.TaskRepository.delete({ id, userId: user.id });
         return found;
     }
 });

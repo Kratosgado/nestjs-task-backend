@@ -13,14 +13,14 @@ let TasksService = class TasksService {
     getTasks(filterDto, user) {
         return task_repository_1.TaskRepository.getTasks(filterDto, user);
     }
-    getTaskById(id) {
-        return task_repository_1.TaskRepository.getTaskById(id);
+    getTaskById(id, user) {
+        return task_repository_1.TaskRepository.getTaskById(id, user);
     }
-    deleteTaskById(id) {
-        return task_repository_1.TaskRepository.deleteTaskById(id);
+    deleteTaskById(id, user) {
+        return task_repository_1.TaskRepository.deleteTaskById(id, user);
     }
-    updateTaskStatus(id, status) {
-        return task_repository_1.TaskRepository.updateTaskStatus(id, status);
+    updateTaskStatus(id, status, user) {
+        return task_repository_1.TaskRepository.updateTaskStatus(id, status, user);
     }
     createTask(createTaskDto, user) {
         return task_repository_1.TaskRepository.createTask(createTaskDto, user);

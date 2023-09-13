@@ -13,16 +13,16 @@ export class TasksService {
       return TaskRepository.getTasks(filterDto, user);
    }
 
-   getTaskById(id: number): Promise<Task> {    
-      return TaskRepository.getTaskById(id);
+   getTaskById(id: number, user: User): Promise<Task> {    
+      return TaskRepository.getTaskById(id, user);
    }
 
-   deleteTaskById(id: number): Promise<Task> {
-      return TaskRepository.deleteTaskById(id);
+   deleteTaskById(id: number, user: User): Promise<Task> {
+      return TaskRepository.deleteTaskById(id, user);
    }
 
-   updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
-      return TaskRepository.updateTaskStatus(id, status);
+   updateTaskStatus(id: number, status: TaskStatus, user: User): Promise<Task> {
+      return TaskRepository.updateTaskStatus(id, status, user);
    }
 
    createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {

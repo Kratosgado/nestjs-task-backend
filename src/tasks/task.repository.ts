@@ -17,7 +17,7 @@ export const TaskRepository = AppDataSource.getRepository(Task).extend({
       const query = TaskRepository.createQueryBuilder('task');
 
       query.where('task.userId = :userId', { userId: user.id });
-      
+
       if (status) {
          query.andWhere('task.status = :status', {status})
       }
@@ -45,23 +45,23 @@ export const TaskRepository = AppDataSource.getRepository(Task).extend({
       return task;
    },
 
-   async getTaskById(id: number): Promise<Task> {
-      const found = await TaskRepository.findOneBy({id: id});
+   async getTaskById(id: number, user: User): Promise<Task> {
+      const found = await TaskRepository.findOne({where: {id: id, userId: user.id}});
       if (!found) {
          throw new NotFoundException(`Task with ID '${id}' Not found`);
       }
       return found
    },
-   async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
-      const task = await TaskRepository.getTaskById(id);
+   async updateTaskStatus(id: number, status: TaskStatus, user: User): Promise<Task> {
+      const task = await TaskRepository.getTaskById(id, user);
       task.status = status;
       task.save()
       return task;
    },
    
-   async deleteTaskById(id: number): Promise<Task> {
-      const found = TaskRepository.getTaskById(id);
-      TaskRepository.delete(id);
+   async deleteTaskById(id: number, user: User): Promise<Task> {
+      const found = await TaskRepository.getTaskById(id, user);
+      TaskRepository.delete({id, userId: user.id});
       return found
    }
 });

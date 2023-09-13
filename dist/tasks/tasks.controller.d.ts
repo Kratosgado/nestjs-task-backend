@@ -8,8 +8,8 @@ export declare class TasksController {
     private taskService;
     constructor(taskService: TasksService);
     getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]>;
-    getTaskById(id: number): Promise<Task>;
-    updateTaskStatus(id: number, status: TaskStatus): Promise<Task>;
-    deleteTaskById(id: number): Promise<Task>;
+    getTaskById(id: number, user: User): Promise<Task>;
+    updateTaskStatus(id: number, status: TaskStatus, user: User): Promise<Task>;
+    deleteTaskById(id: number, user: User): Promise<Task>;
     createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task>;
 }
