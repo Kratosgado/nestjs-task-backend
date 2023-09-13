@@ -6,6 +6,7 @@ import { TaskStatus } from './task-status.enum';
 import { User } from 'src/auth/user.entity';
 export declare class TasksController {
     private taskService;
+    private logger;
     constructor(taskService: TasksService);
     getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]>;
     getTaskById(id: number, user: User): Promise<Task>;

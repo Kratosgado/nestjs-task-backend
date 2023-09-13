@@ -6,6 +6,7 @@ const task_entity_1 = require("./task.entity");
 const task_status_enum_1 = require("./task-status.enum");
 const typeorm_config_1 = require("../config/typeorm.config");
 const common_1 = require("@nestjs/common");
+const logger = new common_1.Logger('TaskRepository');
 exports.TaskRepository = typeorm_config_1.AppDataSource.getRepository(task_entity_1.Task).extend({
     async getTasks(filterDto, user) {
         const { status, search } = filterDto;
@@ -17,8 +18,14 @@ exports.TaskRepository = typeorm_config_1.AppDataSource.getRepository(task_entit
         if (search) {
             query.andWhere('(task.title LIKE :search OR task.description LIKE :search)', { search: `%${search}%` });
         }
-        const tasks = await query.getMany();
-        return tasks;
+        try {
+            const tasks = await query.getMany();
+            return tasks;
+        }
+        catch (error) {
+            logger.error(`Failed to get tasks for user "${user.username}", DTO: ${JSON.stringify(filterDto)}`, error.stack);
+            throw new common_1.InternalServerErrorException();
+        }
     },
     async createTask(createTaskDto, user) {
         const { title, description } = createTaskDto;

@@ -25,8 +25,10 @@ const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let TasksController = class TasksController {
     constructor(taskService) {
         this.taskService = taskService;
+        this.logger = new common_1.Logger('TaskController');
     }
     getTasks(filterDto, user) {
+        this.logger.verbose(`User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(filterDto)}`);
         return this.taskService.getTasks(filterDto, user);
     }
     getTaskById(id, user) {
@@ -39,6 +41,7 @@ let TasksController = class TasksController {
         return this.taskService.deleteTaskById(id, user);
     }
     createTask(createTaskDto, user) {
+        this.logger.verbose(`User "#${user.username}" creating a new task. Data: ${JSON.stringify(createTaskDto)}`);
         return this.taskService.createTask(createTaskDto, user);
     }
 };
