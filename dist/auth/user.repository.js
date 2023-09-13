@@ -32,6 +32,15 @@ exports.UserRepository = typeorm_config_1.AppDataSource.getRepository(user_entit
             return null;
         }
     },
+    async validateUserByUsername(username) {
+        try {
+            const user = await exports.UserRepository.findOneBy({ username: username });
+            return user || null;
+        }
+        catch (error) {
+            throw new common_1.UnauthorizedException();
+        }
+    },
     async hashPassword(password, salt) {
         return await bcrypt.hash(password, salt);
     }

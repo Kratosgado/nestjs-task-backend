@@ -22,8 +22,8 @@ let TasksService = class TasksService {
     updateTaskStatus(id, status) {
         return task_repository_1.TaskRepository.updateTaskStatus(id, status);
     }
-    createTask(createTaskDto) {
-        return task_repository_1.TaskRepository.createTask(createTaskDto);
+    createTask(createTaskDto, user) {
+        return task_repository_1.TaskRepository.createTask(createTaskDto, user);
     }
 };
 exports.TasksService = TasksService;

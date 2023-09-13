@@ -19,14 +19,14 @@ exports.TaskRepository = typeorm_config_1.AppDataSource.getRepository(task_entit
         const tasks = await query.getMany();
         return tasks;
     },
-    async createTask(createTaskDto) {
+    async createTask(createTaskDto, user) {
         const { title, description } = createTaskDto;
         const task = new task_entity_1.Task();
         task.title = title;
         task.description = description;
         task.status = task_status_enum_1.TaskStatus.OPEN;
+        task.user = user;
         await this.save(task);
-        console.log("task is saved");
         return task;
     },
     async getTaskById(id) {

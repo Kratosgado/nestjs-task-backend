@@ -19,6 +19,9 @@ const create_task_dto_1 = require("./dto/create-task.dto");
 const get_tasks_filter_dto_1 = require("./dto/get-tasks-filter.dto");
 const tast_status_validation_pipe_1 = require("./pipes/tast-status-validation.pipe");
 const task_status_enum_1 = require("./task-status.enum");
+const user_entity_1 = require("../auth/user.entity");
+const get_user_decorator_1 = require("../auth/get-user.decorator");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 let TasksController = class TasksController {
     constructor(taskService) {
         this.taskService = taskService;
@@ -35,8 +38,8 @@ let TasksController = class TasksController {
     deleteTaskById(id) {
         return this.taskService.deleteTaskById(id);
     }
-    createTask(createTaskDto) {
-        return this.taskService.createTask(createTaskDto);
+    createTask(createTaskDto, user) {
+        return this.taskService.createTask(createTaskDto, user);
     }
 };
 exports.TasksController = TasksController;
@@ -73,12 +76,15 @@ __decorate([
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_task_dto_1.CreateTaskDto]),
+    __metadata("design:paramtypes", [create_task_dto_1.CreateTaskDto,
+        user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "createTask", null);
 exports.TasksController = TasksController = __decorate([
     (0, common_1.Controller)('tasks'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [tasks_service_1.TasksService])
 ], TasksController);
 //# sourceMappingURL=tasks.controller.js.map

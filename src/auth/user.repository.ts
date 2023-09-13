@@ -1,4 +1,4 @@
-import { ConflictException, InternalServerErrorException } from "@nestjs/common";
+import { ConflictException, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 
 import { AppDataSource } from "src/config/typeorm.config";
 import { User } from "./user.entity";
@@ -32,6 +32,15 @@ export const UserRepository = AppDataSource.getRepository(User).extend({
          return user.username;
       } else {
          return null;
+      }
+   },
+
+   async validateUserByUsername(username: string): Promise<User | null> {
+      try {
+         const user = await UserRepository.findOneBy({ username: username });
+         return user || null
+      } catch (error) {
+         throw new UnauthorizedException()
       }
    },
 

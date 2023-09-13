@@ -29,6 +29,9 @@ let AuthService = class AuthService {
         const accessToken = await this.jwtService.sign(payload);
         return { accessToken };
     }
+    validateUserByUsername(username) {
+        return user_repository_1.UserRepository.validateUserByUsername(username);
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
