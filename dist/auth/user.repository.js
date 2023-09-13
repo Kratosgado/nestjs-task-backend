@@ -12,7 +12,6 @@ exports.UserRepository = typeorm_config_1.AppDataSource.getRepository(user_entit
         user.salt = await bcrypt.genSalt();
         user.username = username;
         user.password = await exports.UserRepository.hashPassword(password, user.salt);
-        user.salt = await bcrypt.genSalt();
         try {
             await user.save();
         }
@@ -25,11 +24,13 @@ exports.UserRepository = typeorm_config_1.AppDataSource.getRepository(user_entit
     },
     async validateUserPassword(authCredentialsDto) {
         const { username, password } = authCredentialsDto;
-        const user = await exports.UserRepository.findOneBy({ username });
+        const user = await exports.UserRepository.findOneBy({ username: username });
         if (user && await user.validatePassword(password)) {
             return user.username;
         }
-        return null;
+        else {
+            return null;
+        }
     },
     async hashPassword(password, salt) {
         return await bcrypt.hash(password, salt);

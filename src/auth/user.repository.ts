@@ -13,7 +13,6 @@ export const UserRepository = AppDataSource.getRepository(User).extend({
       user.salt = await bcrypt.genSalt();
       user.username = username;
       user.password = await UserRepository.hashPassword(password, user.salt);
-      user.salt = await bcrypt.genSalt();
 
       try {
          await user.save();
@@ -27,12 +26,13 @@ export const UserRepository = AppDataSource.getRepository(User).extend({
 
    async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<string>{
       const { username, password } = authCredentialsDto;
-      const user = await UserRepository.findOneBy({ username });
+      const user = await UserRepository.findOneBy({ username: username });
       
       if (user && await user.validatePassword(password)) {
          return user.username;
+      } else {
+         return null;
       }
-      return null;
    },
 
    async hashPassword(password: string, salt: string): Promise<string> {
