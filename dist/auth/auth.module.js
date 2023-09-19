@@ -13,6 +13,11 @@ const auth_service_1 = require("./auth.service");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const jwt_strategy_1 = require("./jwt.strategy");
+const config = require("config");
+const typeorm_1 = require("@nestjs/typeorm");
+const user_repository_1 = require("./user.repository");
+const user_entity_1 = require("./user.entity");
+const jwtConfig = config.get('jwt');
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -23,14 +28,15 @@ exports.AuthModule = AuthModule = __decorate([
                 defaultStrategy: 'jwt'
             }),
             jwt_1.JwtModule.register({
-                secret: 'topSecret51',
+                secret: process.env.JWT_SECRET || jwtConfig.secret,
                 signOptions: {
-                    expiresIn: 3600,
+                    expiresIn: jwtConfig.expiresIn,
                 }
-            })
+            }),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User])
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],
+        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, user_repository_1.UsersRepository],
         exports: [passport_1.PassportModule, jwt_strategy_1.JwtStrategy],
     })
 ], AuthModule);
