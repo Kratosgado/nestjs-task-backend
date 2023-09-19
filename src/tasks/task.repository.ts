@@ -6,7 +6,7 @@ import { TaskStatus } from './task-status.enum'
 // import { AppDataSource } from 'src/config/typeorm.config'
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common'
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto'
-import { User } from 'src/auth/user.entity'
+import { User } from '../auth/user.entity'
 
 const logger = new Logger('TasksRepository');
 
